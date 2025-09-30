@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Create Restaurant Menu</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Restaurant Menu</h1>
+        <form id="menuForm" enctype="multipart/form-data" method="POST" action="/admin/menu/create">
+            <div class="form-group">
+                <label for="restaurantName">Restaurant Name</label>
+                <input type="text" id="restaurantName" name="restaurantName" required>
+            </div>
+            <div class="form-group">
+                <label for="logo">Logo</label>
+                <input type="file" id="logo" name="logo" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label>Menu Items</label>
+                <div id="menuItems">
+                    <div class="menu-item">
+                        <input type="text" name="itemName[]" placeholder="Item Name" required>
+                        <input type="number" name="itemPrice[]" placeholder="Price" required>
+                        <button type="button" onclick="removeMenuItem(this)">Remove</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addMenuItem()">Add Menu Item</button>
+            </div>
+            <button type="submit">Create Menu</button>
+        </form>
+        <% if (typeof qrCodeUrl !== 'undefined' && success) { %>
+        <div id="qrCodeSection" style="margin-top:30px;">
+            <h2>Menu QR Code</h2>
+            <img id="qrCodeImg" src="<%= qrCodeUrl %>" alt="QR Code">
+        </div>
+        <% } %>
+    </div>
+    <script>
+        function addMenuItem() {
+            const menuItems = document.getElementById('menuItems');
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.innerHTML = `<input type="text" name="itemName[]" placeholder="Item Name" required>
+                <input type="number" name="itemPrice[]" placeholder="Price" required>
+                <button type="button" onclick="removeMenuItem(this)">Remove</button>`;
+            menuItems.appendChild(div);
+        }
+        function removeMenuItem(btn) {
+            btn.parentElement.remove();
+        }
+        // Optionally, handle QR code display after menu creation
+    </script>
+</body>
+</html>
